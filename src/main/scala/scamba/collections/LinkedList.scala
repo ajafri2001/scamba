@@ -12,6 +12,7 @@ sealed trait list[+T]:
     infix def as[S](f: T => S): list[S]
     infix def where(f: T => Boolean): list[T]
     def ::[S >: T](elem: S): list[S] = new ::(elem, this)
+    def ++[S >: T](anotherList: list[S]): list[S]
 
 object list:
     def apply[T](xs: T*): list[T] =
@@ -27,6 +28,7 @@ case object Nil extends list[Nothing]:
     def as[S](f: Nothing => S): list[S] = Nil
     def where(f: Nothing => Boolean): list[Nothing] = Nil
     override def ::[S >: Nothing](elem: S): list[S] = new ::(elem, this)
+    override def ++[S >: Nothing](anotherList: list[S]): list[S] = anotherList
 
 case class ::[+T](val head: T, val tail: list[T]) extends list[T]:
 
